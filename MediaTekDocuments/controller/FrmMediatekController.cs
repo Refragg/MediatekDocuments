@@ -82,9 +82,19 @@ namespace MediaTekDocuments.controller
         /// </summary>
         /// <param name="idDocuement">id de la revue concernée</param>
         /// <returns>Liste d'objets Exemplaire</returns>
-        public List<Exemplaire> GetExemplairesRevue(string idDocuement)
+        public List<Exemplaire> GetExemplaires(string idDocuement)
         {
-            return access.GetExemplairesRevue(idDocuement);
+            return access.GetExemplaires(idDocuement);
+        }
+        
+        /// <summary>
+        /// Retourne le nombre de commandes d'un document
+        /// </summary>
+        /// <param name="idDocument">id du document concerné</param>
+        /// <returns>Nombre de commandes du document</returns>
+        public int GetCommandesCount(string idDocuement)
+        {
+            return access.GetCommandesCount(idDocuement);
         }
 
         /// <summary>
@@ -95,6 +105,126 @@ namespace MediaTekDocuments.controller
         public bool CreerExemplaire(Exemplaire exemplaire)
         {
             return access.CreerExemplaire(exemplaire);
+        }
+        
+        /// <summary>
+        /// Crée un livre dans la bdd
+        /// </summary>
+        /// <param name="livre">L'objet Livre concerné</param>
+        /// <returns>True si la création a pu se faire</returns>
+        public bool CreerLivre(Livre livre)
+        {
+            return access.CreerLivre(livre);
+        }
+
+        /// <summary>
+        /// Modifie un livre dans la base de données
+        /// </summary>
+        /// <param name="livre">Le livre avec ses champs modifiés</param>
+        /// <returns>True si la modification à réussi, false sinon</returns>
+        public bool ModifierLivre(Livre livre)
+        {
+            return access.ModifierLivre(livre);
+        }
+
+        /// <summary>
+        /// Supprime un livre de la base de données
+        /// </summary>
+        /// <param name="livre">Le livre à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerLivre(Livre livre)
+        {
+            return SupprimerLivre(livre.Id);
+        }
+        
+        /// <summary>
+        /// Supprime un livre de la base de données
+        /// </summary>
+        /// <param name="idLivre">L'identifiant du livre à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerLivre(string idLivre)
+        {
+            return access.SupprimerLivre(idLivre);
+        }
+        
+        /// <summary>
+        /// Crée un DVD dans la bdd
+        /// </summary>
+        /// <param name="dvd">L'objet DVD concerné</param>
+        /// <returns>True si la création a pu se faire</returns>
+        public bool CreerDvd(Dvd dvd)
+        {
+            return access.CreerDvd(dvd);
+        }
+
+        /// <summary>
+        /// Modifie un DVD dans la base de données
+        /// </summary>
+        /// <param name="dvd">Le DVD avec ses champs modifiés</param>
+        /// <returns>True si la modification à réussi, false sinon</returns>
+        public bool ModifierDvd(Dvd dvd)
+        {
+            return access.ModifierDvd(dvd);
+        }
+
+        /// <summary>
+        /// Supprime un DVD de la base de données
+        /// </summary>
+        /// <param name="dvd">Le DVD à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerDvd(Dvd dvd)
+        {
+            return SupprimerDvd(dvd.Id);
+        }
+        
+        /// <summary>
+        /// Supprime un DVD de la base de données
+        /// </summary>
+        /// <param name="idDvd">L'identifiant du DVD à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerDvd(string idDvd)
+        {
+            return access.SupprimerDvd(idDvd);
+        }
+        
+        /// <summary>
+        /// Crée une revue dans la bdd
+        /// </summary>
+        /// <param name="revue">L'objet revue concerné</param>
+        /// <returns>True si la création a pu se faire</returns>
+        public bool CreerRevue(Revue revue)
+        {
+            return access.CreerRevue(revue);
+        }
+
+        /// <summary>
+        /// Modifie une revue dans la base de données
+        /// </summary>
+        /// <param name="revue">La revue avec ses champs modifiés</param>
+        /// <returns>True si la modification à réussi, false sinon</returns>
+        public bool ModifierRevue(Revue revue)
+        {
+            return access.ModifierRevue(revue);
+        }
+
+        /// <summary>
+        /// Supprime une revue de la base de données
+        /// </summary>
+        /// <param name="revue">La revue à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerRevue(Revue revue)
+        {
+            return SupprimerRevue(revue.Id);
+        }
+        
+        /// <summary>
+        /// Supprime une revue de la base de données
+        /// </summary>
+        /// <param name="idRevue">L'identifiant de la revue à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerRevue(string idRevue)
+        {
+            return access.SupprimerRevue(idRevue);
         }
     }
 }
