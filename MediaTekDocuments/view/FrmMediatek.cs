@@ -293,11 +293,13 @@ namespace MediaTekDocuments.view
                     AfficheLivresInfos(livre);
                     btnLivresModifier.Enabled = true;
                     btnLivresSupprimer.Enabled = true;
+                    btnLivresCommandes.Enabled = true;
                 }
                 catch
                 {
                     btnLivresModifier.Enabled = false;
                     btnLivresSupprimer.Enabled = false;
+                    btnLivresCommandes.Enabled = false;
                     VideLivresZones();
                 }
             }
@@ -305,6 +307,7 @@ namespace MediaTekDocuments.view
             {
                 btnLivresModifier.Enabled = false;
                 btnLivresSupprimer.Enabled = false;
+                btnLivresCommandes.Enabled = false;
                 VideLivresInfos();
             }
         }
@@ -587,6 +590,7 @@ namespace MediaTekDocuments.view
             btnLivresAjouter.Enabled = etatActions;
             btnLivresModifier.Enabled = etatActions;
             btnLivresSupprimer.Enabled = etatActions;
+            btnLivresCommandes.Enabled = etatActions;
             
             btnLivresValider.Enabled = !etatActions;
             btnLivresAnnuler.Enabled = !etatActions;
@@ -642,6 +646,19 @@ namespace MediaTekDocuments.view
             }
             
             return true;
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au clic sur le bouton gérer les commandes
+        /// Cette méthode ouvre la fenêtre de gestion des commandes pour le livre actuel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLivresCommandes_Click(object sender, EventArgs e)
+        {
+            FrmMediatekCommandesLivreDvd formCommandes =
+                new FrmMediatekCommandesLivreDvd((Livre)bdgLivresListe.List[bdgLivresListe.Position]);
+            formCommandes.ShowDialog();
         }
         #endregion
 
@@ -874,15 +891,24 @@ namespace MediaTekDocuments.view
                 {
                     Dvd dvd = (Dvd)bdgDvdListe.List[bdgDvdListe.Position];
                     AfficheDvdInfos(dvd);
+                    btnDvdModifier.Enabled = true;
+                    btnDvdSupprimer.Enabled = true;
+                    btnDvdCommandes.Enabled = true;
                 }
                 catch
                 {
                     VideDvdZones();
+                    btnDvdModifier.Enabled = false;
+                    btnDvdSupprimer.Enabled = false;
+                    btnDvdCommandes.Enabled = false;
                 }
             }
             else
             {
                 VideDvdInfos();
+                btnDvdModifier.Enabled = false;
+                btnDvdSupprimer.Enabled = false;
+                btnDvdCommandes.Enabled = false;
             }
         }
 
@@ -1163,6 +1189,7 @@ namespace MediaTekDocuments.view
             btnDvdAjouter.Enabled = etatActions;
             btnDvdModifier.Enabled = etatActions;
             btnDvdSupprimer.Enabled = etatActions;
+            btnDvdCommandes.Enabled = etatActions;
             
             btnDvdValider.Enabled = !etatActions;
             btnDvdAnnuler.Enabled = !etatActions;
@@ -1218,6 +1245,19 @@ namespace MediaTekDocuments.view
             }
             
             return true;
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au clic sur le bouton gérer les commandes
+        /// Cette méthode affiche la fenêtre de gestion des commandes pour le DVD actuel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDvdCommandes_Click(object sender, EventArgs e)
+        {
+            FrmMediatekCommandesLivreDvd formCommandes =
+                new FrmMediatekCommandesLivreDvd((Dvd)bdgDvdListe.List[bdgDvdListe.Position]);
+            formCommandes.ShowDialog();
         }
         #endregion
 

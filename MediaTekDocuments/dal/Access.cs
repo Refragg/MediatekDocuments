@@ -105,6 +105,16 @@ namespace MediaTekDocuments.dal
             IEnumerable<Public> lesPublics = TraitementRecup<Public>(GET, "public", null);
             return new List<Categorie>(lesPublics);
         }
+        
+        /// <summary>
+        /// Retourne tous les suivis possibles à partir de la BDD
+        /// </summary>
+        /// <returns>Liste d'objets Suivi</returns>
+        public List<Suivi> GetAllSuivis()
+        {
+            IEnumerable<Suivi> lesSuivis = TraitementRecup<Suivi>(GET, "suivi", null);
+            return new List<Suivi>(lesSuivis);
+        }
 
         /// <summary>
         /// Retourne toutes les livres à partir de la BDD
@@ -159,6 +169,18 @@ namespace MediaTekDocuments.dal
             String jsonIdDocument = convertToJson("id", idDocument);
             List<object> lesExemplaires = TraitementRecup<object>(GET, "commandedocument/" + jsonIdDocument, null);
             return lesExemplaires.Count;
+        }
+        
+        /// <summary>
+        /// Retourne le nombre de commandes d'un livre / DVD
+        /// </summary>
+        /// <param name="livreDvd">Le livre / DVD concerné</param>
+        /// <returns>Nombre de commandes du livre / DVD</returns>
+        public List<CommandeLivreDvd> GetCommandes(LivreDvd livreDvd)
+        {
+            String jsonIdDocument = convertToJson("id", livreDvd.Id);
+            List<CommandeLivreDvd> lesCommandes = TraitementRecup<CommandeLivreDvd>(GET, "commandedocument/" + jsonIdDocument, null);
+            return lesCommandes;
         }
 
         /// <summary>
@@ -352,6 +374,66 @@ namespace MediaTekDocuments.dal
             try
             {
                 List<Revue> liste = TraitementRecup<Revue>(DELETE, "revue", "champs=" + jsonRevue, false);
+                return liste != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Crée et ajoute une commande à la base de données
+        /// </summary>
+        /// <param name="commande">L'objet de la commande à créer</param>
+        /// <returns>True si la création à réussi, false sinon</returns>
+        public bool CreerCommande(CommandeLivreDvd commande)
+        {
+            String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
+            try
+            {
+                List<CommandeLivreDvd> liste = TraitementRecup<CommandeLivreDvd>(POST, "commandedocument", "champs=" + jsonCommande);
+                return liste.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Modifie une commande dans la base de données
+        /// </summary>
+        /// <param name="commande">La commande avec ses champs modifiés</param>
+        /// <returns>True si la modification à réussi, false sinon</returns>
+        public bool ModifierCommande(CommandeLivreDvd commande)
+        {
+            String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
+            try
+            {
+                List<CommandeLivreDvd> liste = TraitementRecup<CommandeLivreDvd>(PUT, "commandedocument", "champs=" + jsonCommande);
+                return liste.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Supprime une commande de la base de données
+        /// </summary>
+        /// <param name="idCommande">L'identifiant de la commande à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerCommande(string idCommande)
+        {
+            String jsonRevue = convertToJson("Id", idCommande);
+            try
+            {
+                List<CommandeLivreDvd> liste = TraitementRecup<CommandeLivreDvd>(DELETE, "commandedocument", "champs=" + jsonRevue, false);
                 return liste != null;
             }
             catch (Exception ex)
