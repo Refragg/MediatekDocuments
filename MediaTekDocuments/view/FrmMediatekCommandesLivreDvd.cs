@@ -65,6 +65,10 @@ namespace MediaTekDocuments.view
             dgvCommandes.DataSource = bdgCommandesListe;
             dgvCommandes.Columns["dateCommande"].HeaderText = "Date commande";
             dgvCommandes.Columns["nbExemplaire"].HeaderText = "Nombre d'exemplaires";
+            dgvCommandes.Columns["dateCommande"].DisplayIndex = 0;
+            dgvCommandes.Columns["montant"].DisplayIndex = 1;
+            dgvCommandes.Columns["nbExemplaire"].DisplayIndex = 2;
+            dgvCommandes.Columns["stade"].DisplayIndex = 3;
             dgvCommandes.Columns["id"].Visible = false;
             dgvCommandes.Columns["idSuivi"].Visible = false;
             dgvCommandes.Columns["idLivreDvd"].Visible = false;

@@ -210,6 +210,7 @@ namespace MediaTekDocuments.view
             this.label53 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
             this.btnReceptionRechercher = new System.Windows.Forms.Button();
+            this.btnRevuesAbonnements = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresActions.SuspendLayout();
@@ -1330,6 +1331,7 @@ namespace MediaTekDocuments.view
             // 
             // grpRevuesActions
             // 
+            this.grpRevuesActions.Controls.Add(this.btnRevuesAbonnements);
             this.grpRevuesActions.Controls.Add(this.btnRevuesValider);
             this.grpRevuesActions.Controls.Add(this.btnRevuesAnnuler);
             this.grpRevuesActions.Controls.Add(this.btnRevuesSupprimer);
@@ -2192,6 +2194,17 @@ namespace MediaTekDocuments.view
             this.btnReceptionRechercher.UseVisualStyleBackColor = true;
             this.btnReceptionRechercher.Click += new System.EventHandler(this.btnReceptionRechercher_Click);
             // 
+            // btnRevuesAbonnements
+            // 
+            this.btnRevuesAbonnements.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRevuesAbonnements.Location = new System.Drawing.Point(252, 19);
+            this.btnRevuesAbonnements.Name = "btnRevuesAbonnements";
+            this.btnRevuesAbonnements.Size = new System.Drawing.Size(158, 23);
+            this.btnRevuesAbonnements.TabIndex = 5;
+            this.btnRevuesAbonnements.Text = "Gérer les abonnements...";
+            this.btnRevuesAbonnements.UseVisualStyleBackColor = true;
+            this.btnRevuesAbonnements.Click += new System.EventHandler(this.btnRevuesAbonnements_Click);
+            // 
             // FrmMediatek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2238,6 +2251,8 @@ namespace MediaTekDocuments.view
             ((System.ComponentModel.ISupportInitialize)(this.pcbReceptionRevueImage)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button btnRevuesAbonnements;
 
         private System.Windows.Forms.Button btnDvdCommandes;
 

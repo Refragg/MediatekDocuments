@@ -2,7 +2,7 @@
 
 namespace MediaTekDocuments.view
 {
-    partial class FrmMediatekCommandesLivreDvd
+    partial class FrmMediatekCommandesRevue
     {
         /// <summary>
         /// Required designer variable.
@@ -34,14 +34,12 @@ namespace MediaTekDocuments.view
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvCommandes = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbxStade = new System.Windows.Forms.ComboBox();
+            this.dtpDateFinAbonnement = new System.Windows.Forms.DateTimePicker();
+            this.txbDateFinAbonnement = new System.Windows.Forms.TextBox();
             this.dtpDateCommande = new System.Windows.Forms.DateTimePicker();
             this.txbDateCommande = new System.Windows.Forms.TextBox();
-            this.txbStade = new System.Windows.Forms.TextBox();
-            this.nudNbExemplaires = new System.Windows.Forms.NumericUpDown();
             this.txbMontant = new System.Windows.Forms.TextBox();
             this.txbNumCommande = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,7 +52,6 @@ namespace MediaTekDocuments.view
             this.btnAjouter = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommandes)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudNbExemplaires)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,40 +77,45 @@ namespace MediaTekDocuments.view
             this.dgvCommandes.ReadOnly = true;
             this.dgvCommandes.RowHeadersVisible = false;
             this.dgvCommandes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCommandes.Size = new System.Drawing.Size(437, 209);
+            this.dgvCommandes.Size = new System.Drawing.Size(437, 238);
             this.dgvCommandes.TabIndex = 0;
             this.dgvCommandes.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCommandes_ColumnHeaderMouseClick);
             this.dgvCommandes.SelectionChanged += new System.EventHandler(this.dgvCommandes_SelectionChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cbxStade);
+            this.groupBox1.Controls.Add(this.dtpDateFinAbonnement);
+            this.groupBox1.Controls.Add(this.txbDateFinAbonnement);
             this.groupBox1.Controls.Add(this.dtpDateCommande);
             this.groupBox1.Controls.Add(this.txbDateCommande);
-            this.groupBox1.Controls.Add(this.txbStade);
-            this.groupBox1.Controls.Add(this.nudNbExemplaires);
             this.groupBox1.Controls.Add(this.txbMontant);
             this.groupBox1.Controls.Add(this.txbNumCommande);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 227);
+            this.groupBox1.Location = new System.Drawing.Point(12, 256);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(437, 153);
+            this.groupBox1.Size = new System.Drawing.Size(437, 124);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Informations commandes";
+            this.groupBox1.Text = "Informations abonnement";
             // 
-            // cbxStade
+            // dtpDateFinAbonnement
             // 
-            this.cbxStade.FormattingEnabled = true;
-            this.cbxStade.Location = new System.Drawing.Point(147, 123);
-            this.cbxStade.Name = "cbxStade";
-            this.cbxStade.Size = new System.Drawing.Size(200, 21);
-            this.cbxStade.TabIndex = 10;
-            this.cbxStade.Visible = false;
+            this.dtpDateFinAbonnement.Location = new System.Drawing.Point(147, 97);
+            this.dtpDateFinAbonnement.Name = "dtpDateFinAbonnement";
+            this.dtpDateFinAbonnement.Size = new System.Drawing.Size(200, 20);
+            this.dtpDateFinAbonnement.TabIndex = 9;
+            this.dtpDateFinAbonnement.Visible = false;
+            // 
+            // txbDateFinAbonnement
+            // 
+            this.txbDateFinAbonnement.Location = new System.Drawing.Point(147, 96);
+            this.txbDateFinAbonnement.Name = "txbDateFinAbonnement";
+            this.txbDateFinAbonnement.ReadOnly = true;
+            this.txbDateFinAbonnement.Size = new System.Drawing.Size(200, 20);
+            this.txbDateFinAbonnement.TabIndex = 8;
             // 
             // dtpDateCommande
             // 
@@ -130,25 +132,6 @@ namespace MediaTekDocuments.view
             this.txbDateCommande.ReadOnly = true;
             this.txbDateCommande.Size = new System.Drawing.Size(200, 20);
             this.txbDateCommande.TabIndex = 6;
-            // 
-            // txbStade
-            // 
-            this.txbStade.Location = new System.Drawing.Point(147, 123);
-            this.txbStade.Name = "txbStade";
-            this.txbStade.ReadOnly = true;
-            this.txbStade.Size = new System.Drawing.Size(200, 20);
-            this.txbStade.TabIndex = 9;
-            // 
-            // nudNbExemplaires
-            // 
-            this.nudNbExemplaires.Location = new System.Drawing.Point(147, 97);
-            this.nudNbExemplaires.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            this.nudNbExemplaires.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            this.nudNbExemplaires.Name = "nudNbExemplaires";
-            this.nudNbExemplaires.ReadOnly = true;
-            this.nudNbExemplaires.Size = new System.Drawing.Size(200, 20);
-            this.nudNbExemplaires.TabIndex = 8;
-            this.nudNbExemplaires.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // txbMontant
             // 
@@ -167,25 +150,15 @@ namespace MediaTekDocuments.view
             this.txbNumCommande.Size = new System.Drawing.Size(200, 20);
             this.txbNumCommande.TabIndex = 5;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(6, 126);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Stade :";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(6, 99);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(138, 13);
+            this.label4.Size = new System.Drawing.Size(133, 13);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Nombre d\'exemplaires :";
+            this.label4.Text = "Date fin abonnement :";
             // 
             // label3
             // 
@@ -288,7 +261,7 @@ namespace MediaTekDocuments.view
             this.btnAjouter.UseVisualStyleBackColor = true;
             this.btnAjouter.Click += new System.EventHandler(this.btnAjouter_Click);
             // 
-            // FrmMediatekCommandesLivreDvd
+            // FrmMediatekCommandesRevue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -299,17 +272,18 @@ namespace MediaTekDocuments.view
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmMediatekCommandesLivreDvd";
-            this.Text = "Gestion des commandes";
+            this.Name = "FrmMediatekCommandesRevue";
+            this.Text = "Gestion des abonnements";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommandes)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudNbExemplaires)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.ComboBox cbxStade;
+        private System.Windows.Forms.DateTimePicker dtpDateFinAbonnement;
+
+        private System.Windows.Forms.TextBox txbDateFinAbonnement;
 
         private System.Windows.Forms.DateTimePicker dtpDateCommande;
         private System.Windows.Forms.TextBox txbDateCommande;
@@ -322,12 +296,9 @@ namespace MediaTekDocuments.view
 
         private System.Windows.Forms.TextBox txbNumCommande;
         private System.Windows.Forms.TextBox txbMontant;
-        private System.Windows.Forms.NumericUpDown nudNbExemplaires;
-        private System.Windows.Forms.TextBox txbStade;
 
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
 
         private System.Windows.Forms.Label label2;
 

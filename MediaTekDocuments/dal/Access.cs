@@ -146,6 +146,15 @@ namespace MediaTekDocuments.dal
             return lesRevues;
         }
 
+        /// <summary>
+        /// Retourne les revues dont l'abonnement arrive a expiration dans moins de 30 jours à partir de la BDD
+        /// </summary>
+        /// <returns>Liste d'objets RevueAbonnementAExpiration</returns>
+        public List<RevueAbonnementAExpiration> GetRevuesAbonnementAExpirationProchaine()
+        {
+            List<RevueAbonnementAExpiration> lesRevues = TraitementRecup<RevueAbonnementAExpiration>(GET, "revue_abonnement_expiration", null);
+            return lesRevues;
+        }
 
         /// <summary>
         /// Retourne les exemplaires d'un document
@@ -160,14 +169,26 @@ namespace MediaTekDocuments.dal
         }
 
         /// <summary>
-        /// Retourne le nombre de commandes d'un document
+        /// Retourne le nombre de commandes d'un livre / DVD
         /// </summary>
-        /// <param name="idDocument">id du document concerné</param>
-        /// <returns>Nombre de commandes du document</returns>
-        public int GetCommandesCount(string idDocument)
+        /// <param name="idDocument">id du livre / DVD concerné</param>
+        /// <returns>Nombre de commandes du livre / DVD</returns>
+        public int GetCommandesCountLivreDvd(string idDocument)
         {
             String jsonIdDocument = convertToJson("id", idDocument);
             List<object> lesExemplaires = TraitementRecup<object>(GET, "commandedocument/" + jsonIdDocument, null);
+            return lesExemplaires.Count;
+        }
+        
+        /// <summary>
+        /// Retourne le nombre de commandes d'une revue
+        /// </summary>
+        /// <param name="idDocument">id de la revue concernée</param>
+        /// <returns>Nombre de commandes de la revue</returns>
+        public int GetCommandesCountRevue(string idDocument)
+        {
+            String jsonIdDocument = convertToJson("id", idDocument);
+            List<object> lesExemplaires = TraitementRecup<object>(GET, "abonnement/" + jsonIdDocument, null);
             return lesExemplaires.Count;
         }
         
@@ -180,6 +201,18 @@ namespace MediaTekDocuments.dal
         {
             String jsonIdDocument = convertToJson("id", livreDvd.Id);
             List<CommandeLivreDvd> lesCommandes = TraitementRecup<CommandeLivreDvd>(GET, "commandedocument/" + jsonIdDocument, null);
+            return lesCommandes;
+        }
+        
+        /// <summary>
+        /// Retourne les commandes d'une revue
+        /// </summary>
+        /// <param name="revue">La revue concernée</param>
+        /// <returns>La liste des commandes de la revue</returns>
+        public List<Abonnement> GetCommandes(Revue revue)
+        {
+            String jsonIdDocument = convertToJson("id", revue.Id);
+            List<Abonnement> lesCommandes = TraitementRecup<Abonnement>(GET, "abonnement/" + jsonIdDocument, null);
             return lesCommandes;
         }
 
@@ -428,12 +461,72 @@ namespace MediaTekDocuments.dal
         /// </summary>
         /// <param name="idCommande">L'identifiant de la commande à supprimer</param>
         /// <returns>True si la suppression à réussi, false sinon</returns>
-        public bool SupprimerCommande(string idCommande)
+        public bool SupprimerCommandeLivreDvd(string idCommande)
         {
             String jsonRevue = convertToJson("Id", idCommande);
             try
             {
                 List<CommandeLivreDvd> liste = TraitementRecup<CommandeLivreDvd>(DELETE, "commandedocument", "champs=" + jsonRevue, false);
+                return liste != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Crée et ajoute une commande d'une revue à la base de données
+        /// </summary>
+        /// <param name="commande">L'objet de la commande à créer</param>
+        /// <returns>True si la création à réussi, false sinon</returns>
+        public bool CreerCommande(Abonnement commande)
+        {
+            String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
+            try
+            {
+                List<Abonnement> liste = TraitementRecup<Abonnement>(POST, "abonnement", "champs=" + jsonCommande);
+                return liste.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Modifie une commande d'une revue dans la base de données
+        /// </summary>
+        /// <param name="commande">La commande avec ses champs modifiés</param>
+        /// <returns>True si la modification à réussi, false sinon</returns>
+        public bool ModifierCommande(Abonnement commande)
+        {
+            String jsonCommande = JsonConvert.SerializeObject(commande, new CustomDateTimeConverter());
+            try
+            {
+                List<Abonnement> liste = TraitementRecup<Abonnement>(PUT, "abonnement", "champs=" + jsonCommande);
+                return liste.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Supprime une commande d'une revue de la base de données
+        /// </summary>
+        /// <param name="idCommande">L'identifiant de la commande à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public bool SupprimerCommandeRevue(string idCommande)
+        {
+            String jsonCommande = convertToJson("Id", idCommande);
+            try
+            {
+                List<Abonnement> liste = TraitementRecup<Abonnement>(DELETE, "abonnement", "champs=" + jsonCommande, false);
                 return liste != null;
             }
             catch (Exception ex)

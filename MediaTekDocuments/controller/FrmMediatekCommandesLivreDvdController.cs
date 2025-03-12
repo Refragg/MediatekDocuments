@@ -39,7 +39,7 @@ namespace MediaTekDocuments.controller
         /// <returns>True si la commande a été supprimée avec succès, sinon false</returns>
         public bool SupprimerCommande(CommandeLivreDvd commande)
         {
-            return access.SupprimerCommande(commande.Id);
+            return access.SupprimerCommandeLivreDvd(commande.Id);
         }
 
         /// <summary>

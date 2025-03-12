@@ -31,6 +31,22 @@ namespace MediaTekDocuments.view
         {
             InitializeComponent();
             this.controller = new FrmMediatekController();
+
+            List<RevueAbonnementAExpiration> revuesExpirationProchaine = controller.GetRevuesAbonnementAExpirationProchaine();
+
+            if (revuesExpirationProchaine.Count != 0)
+            {
+                string titre = "Des revues arrivent à expiration";
+                string message = "Les revues suivantes arrivent à expiration dans moins de 30 jours :\n";
+                
+                foreach (RevueAbonnementAExpiration revue in revuesExpirationProchaine)
+                    message += "- '" + revue.Titre + "' - Expire le " + revue.DateFinAbonnement.ToShortDateString() + '\n';
+
+                // Enlèvement du dernière retour à la ligne
+                message.Remove(message.Length - 1);
+
+                MessageBox.Show(message, titre);
+            }
         }
 
         /// <summary>
@@ -451,7 +467,7 @@ namespace MediaTekDocuments.view
                 return;
             }
 
-            if (controller.GetCommandesCount(livre.Id) != 0)
+            if (controller.GetCommandesCountLivreDvd(livre.Id) != 0)
             {
                 MessageBox.Show("Un livre ne peut pas être supprimé si il a des commandes liées");
                 return;
@@ -1051,7 +1067,7 @@ namespace MediaTekDocuments.view
                 return;
             }
 
-            if (controller.GetCommandesCount(dvd.Id) != 0)
+            if (controller.GetCommandesCountLivreDvd(dvd.Id) != 0)
             {
                 MessageBox.Show("Un DVD ne peut pas être supprimé si il a des commandes liées");
                 return;
@@ -1487,15 +1503,24 @@ namespace MediaTekDocuments.view
                 {
                     Revue revue = (Revue)bdgRevuesListe.List[bdgRevuesListe.Position];
                     AfficheRevuesInfos(revue);
+                    btnRevuesModifier.Enabled = true;
+                    btnRevuesSupprimer.Enabled = true;
+                    btnRevuesAbonnements.Enabled = true;
                 }
                 catch
                 {
                     VideRevuesZones();
+                    btnRevuesModifier.Enabled = false;
+                    btnRevuesSupprimer.Enabled = false;
+                    btnRevuesAbonnements.Enabled = false;
                 }
             }
             else
             {
                 VideRevuesInfos();
+                btnRevuesModifier.Enabled = false;
+                btnRevuesSupprimer.Enabled = false;
+                btnRevuesAbonnements.Enabled = false;
             }
         }
 
@@ -1638,6 +1663,12 @@ namespace MediaTekDocuments.view
                 return;
             }
 
+            if (controller.GetCommandesCountRevue(revue.Id) != 0)
+            {
+                MessageBox.Show("Une revue ne peut pas être supprimée si elle a des abonnements liés");
+                return;
+            }
+
             if (MessageBox.Show($"Voulez vous vraiment supprimer la revue '{revue.Titre}' ?", "Suppression de revue",
                     MessageBoxButtons.YesNo) != DialogResult.Yes)
                 return;
@@ -1761,6 +1792,19 @@ namespace MediaTekDocuments.view
         }
         
         /// <summary>
+        /// Méthode événementielle au clic sur le bouton gérer les abonnements
+        /// Cette méthode affiche la fenêtre de gestion des abonnements pour cette revue
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRevuesAbonnements_Click(object sender, EventArgs e)
+        {
+            FrmMediatekCommandesRevue formCommandes =
+                new FrmMediatekCommandesRevue((Revue)bdgRevuesListe.List[bdgRevuesListe.Position]);
+            formCommandes.ShowDialog();
+        }
+        
+        /// <summary>
         /// Changement de l'état d'activation des boutons d'action pour les revues
         /// </summary>
         /// <param name="etatActions">Les actions doivent-elles être activées ou non (les boutons valider et annuler prennent la valeur inverse)</param>
@@ -1769,6 +1813,7 @@ namespace MediaTekDocuments.view
             btnRevuesAjouter.Enabled = etatActions;
             btnRevuesModifier.Enabled = etatActions;
             btnRevuesSupprimer.Enabled = etatActions;
+            btnRevuesAbonnements.Enabled = etatActions;
             
             btnRevuesValider.Enabled = !etatActions;
             btnRevuesAnnuler.Enabled = !etatActions;
