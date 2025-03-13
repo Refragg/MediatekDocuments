@@ -80,7 +80,9 @@ namespace MediaTekDocuments.view
 
         #region Onglet Livres
         private readonly BindingSource bdgLivresListe = new BindingSource();
+        private readonly BindingSource bdgLivresExemplaires = new BindingSource();
         private List<Livre> lesLivres = new List<Livre>();
+        private List<Exemplaire> lesExemplairesLivre = new List<Exemplaire>();
         private bool livresEnAjout = false;
         private bool livresEnModif = false;
 
@@ -211,6 +213,8 @@ namespace MediaTekDocuments.view
             {
                 pcbLivresImage.Image = null;
             }
+
+            AfficheLivresExemplaires();
         }
 
         /// <summary>
@@ -316,6 +320,7 @@ namespace MediaTekDocuments.view
                     btnLivresModifier.Enabled = false;
                     btnLivresSupprimer.Enabled = false;
                     btnLivresCommandes.Enabled = false;
+                    RemplirLivresExemplairesListe(null);
                     VideLivresZones();
                 }
             }
@@ -324,6 +329,7 @@ namespace MediaTekDocuments.view
                 btnLivresModifier.Enabled = false;
                 btnLivresSupprimer.Enabled = false;
                 btnLivresCommandes.Enabled = false;
+                RemplirLivresExemplairesListe(null);
                 VideLivresInfos();
             }
         }
@@ -676,11 +682,95 @@ namespace MediaTekDocuments.view
                 new FrmMediatekCommandesLivreDvd((Livre)bdgLivresListe.List[bdgLivresListe.Position]);
             formCommandes.ShowDialog();
         }
+        
+        /// <summary>
+        /// Méthode événementielle au clic sur le titre d'une colonne des exemplaires
+        /// Cette méthode trie en fonction de la colonne cliquée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvLivresExemplaires_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string titreColonne = dgvLivresExemplaires.Columns[e.ColumnIndex].HeaderText;
+            List<Exemplaire> sortedList = new List<Exemplaire>();
+            switch (titreColonne)
+            {
+                case "Numero":
+                    sortedList = lesExemplairesLivre.OrderBy(o => o.Numero).Reverse().ToList();
+                    break;
+                case "DateAchat":
+                    sortedList = lesExemplairesLivre.OrderBy(o => o.DateAchat).Reverse().ToList();
+                    break;
+                case "Etat":
+                    sortedList = lesExemplairesLivre.OrderBy(o => o.Etat).ToList();
+                    break;
+            }
+            RemplirLivresExemplairesListe(sortedList);
+        }
+        
+        /// <summary>
+        /// Récupère et affiche les exemplaires d'un livre
+        /// </summary>
+        private void AfficheLivresExemplaires()
+        {
+            string idDocuement = ((Livre)bdgLivresListe.List[bdgLivresListe.Position]).Id;
+            lesExemplairesLivre = controller.GetExemplaires(idDocuement);
+            RemplirLivresExemplairesListe(lesExemplairesLivre);
+        }
+        
+        /// <summary>
+        /// Remplit le dategrid des exemplaires avec la liste reçue en paramètre
+        /// </summary>
+        /// <param name="exemplaires">liste d'exemplaires</param>
+        private void RemplirLivresExemplairesListe(List<Exemplaire> exemplaires)
+        {
+            if (exemplaires != null)
+            {
+                bdgLivresExemplaires.DataSource = exemplaires;
+                dgvLivresExemplaires.DataSource = bdgLivresExemplaires;
+                dgvLivresExemplaires.Columns["idEtat"].Visible = false;
+                dgvLivresExemplaires.Columns["photo"].Visible = false;
+                dgvLivresExemplaires.Columns["id"].Visible = false;
+                dgvLivresExemplaires.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                dgvLivresExemplaires.Columns["numero"].DisplayIndex = 0;
+                dgvLivresExemplaires.Columns["dateAchat"].DisplayIndex = 1;
+            }
+            else
+            {
+                bdgLivresExemplaires.DataSource = null;
+            }
+        }
+
+        /// <summary>
+        /// Méthode événementielle au double clic sur une case de la DataGridView
+        /// Cette méthode gère le double clic sur la case 'état' d'un des exemplaires
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvLivresExemplaires_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1 || e.ColumnIndex != dgvLivresExemplaires.Columns["etat"].Index)
+                return;
+
+            FrmModifEtat formModifEtat =
+                new FrmModifEtat(dgvLivresExemplaires[e.ColumnIndex, e.RowIndex].Value.ToString());
+
+            Exemplaire exemplaire = (Exemplaire)bdgLivresExemplaires.List[bdgLivresExemplaires.Position];
+
+            if (formModifEtat.ShowDialog() == DialogResult.OK && formModifEtat.Etat.Libelle != exemplaire.Etat)
+            {
+                exemplaire.IdEtat = formModifEtat.Etat.Id;
+                exemplaire.Etat = formModifEtat.Etat.Libelle;
+                controller.ModifierExemplaire(exemplaire);
+            }
+        }
         #endregion
 
         #region Onglet Dvd
         private readonly BindingSource bdgDvdListe = new BindingSource();
+        private readonly BindingSource bdgDvdExemplaires = new BindingSource();
         private List<Dvd> lesDvd = new List<Dvd>();
+        private List<Exemplaire> lesExemplairesDvd = new List<Exemplaire>();
         private bool dvdsEnAjout = false;
         private bool dvdsEnModif = false;
 
@@ -811,6 +901,8 @@ namespace MediaTekDocuments.view
             {
                 pcbDvdImage.Image = null;
             }
+            
+            AfficheDvdExemplaires();
         }
 
         /// <summary>
@@ -914,6 +1006,7 @@ namespace MediaTekDocuments.view
                 catch
                 {
                     VideDvdZones();
+                    RemplirDvdExemplairesListe(null);
                     btnDvdModifier.Enabled = false;
                     btnDvdSupprimer.Enabled = false;
                     btnDvdCommandes.Enabled = false;
@@ -922,6 +1015,7 @@ namespace MediaTekDocuments.view
             else
             {
                 VideDvdInfos();
+                RemplirDvdExemplairesListe(null);
                 btnDvdModifier.Enabled = false;
                 btnDvdSupprimer.Enabled = false;
                 btnDvdCommandes.Enabled = false;
@@ -1274,6 +1368,88 @@ namespace MediaTekDocuments.view
             FrmMediatekCommandesLivreDvd formCommandes =
                 new FrmMediatekCommandesLivreDvd((Dvd)bdgDvdListe.List[bdgDvdListe.Position]);
             formCommandes.ShowDialog();
+        }
+        
+        /// <summary>
+        /// Récupère et affiche les exemplaires d'un DVD
+        /// </summary>
+        private void AfficheDvdExemplaires()
+        {
+            string idDocuement = ((Dvd)bdgDvdListe.List[bdgDvdListe.Position]).Id;
+            lesExemplairesDvd = controller.GetExemplaires(idDocuement);
+            RemplirDvdExemplairesListe(lesExemplairesDvd);
+        }
+        
+        /// <summary>
+        /// Remplit le dategrid des exemplaires avec la liste reçue en paramètre
+        /// </summary>
+        /// <param name="exemplaires">liste d'exemplaires</param>
+        private void RemplirDvdExemplairesListe(List<Exemplaire> exemplaires)
+        {
+            if (exemplaires != null)
+            {
+                bdgDvdExemplaires.DataSource = exemplaires;
+                dgvDvdExemplaires.DataSource = bdgDvdExemplaires;
+                dgvDvdExemplaires.Columns["idEtat"].Visible = false;
+                dgvDvdExemplaires.Columns["photo"].Visible = false;
+                dgvDvdExemplaires.Columns["id"].Visible = false;
+                dgvDvdExemplaires.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                dgvDvdExemplaires.Columns["numero"].DisplayIndex = 0;
+                dgvDvdExemplaires.Columns["dateAchat"].DisplayIndex = 1;
+            }
+            else
+            {
+                bdgDvdExemplaires.DataSource = null;
+            }
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au clic sur le titre d'une colonne des exemplaires
+        /// Cette méthode trie en fonction de la colonne cliquée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvDvdExemplaires_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string titreColonne = dgvDvdExemplaires.Columns[e.ColumnIndex].HeaderText;
+            List<Exemplaire> sortedList = new List<Exemplaire>();
+            switch (titreColonne)
+            {
+                case "Numero":
+                    sortedList = lesExemplairesDvd.OrderBy(o => o.Numero).Reverse().ToList();
+                    break;
+                case "DateAchat":
+                    sortedList = lesExemplairesDvd.OrderBy(o => o.DateAchat).Reverse().ToList();
+                    break;
+                case "Etat":
+                    sortedList = lesExemplairesDvd.OrderBy(o => o.Etat).ToList();
+                    break;
+            }
+            RemplirDvdExemplairesListe(sortedList);
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au double clic sur une case de la DataGridView
+        /// Cette méthode gère le double clic sur la case 'état' d'un des exemplaires
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvDvdExemplaires_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1 || e.ColumnIndex != dgvDvdExemplaires.Columns["etat"].Index)
+                return;
+
+            FrmModifEtat formModifEtat =
+                new FrmModifEtat(dgvDvdExemplaires[e.ColumnIndex, e.RowIndex].Value.ToString());
+
+            Exemplaire exemplaire = (Exemplaire)bdgDvdExemplaires.List[bdgDvdExemplaires.Position];
+
+            if (formModifEtat.ShowDialog() == DialogResult.OK && formModifEtat.Etat.Libelle != exemplaire.Etat)
+            {
+                exemplaire.IdEtat = formModifEtat.Etat.Id;
+                exemplaire.Etat = formModifEtat.Etat.Libelle;
+                controller.ModifierExemplaire(exemplaire);
+            }
         }
         #endregion
 
@@ -1872,9 +2048,10 @@ namespace MediaTekDocuments.view
         #endregion
 
         #region Onglet Paarutions
-        private readonly BindingSource bdgExemplairesListe = new BindingSource();
-        private List<Exemplaire> lesExemplaires = new List<Exemplaire>();
+        private readonly BindingSource bdgParutionsExemplairesListe = new BindingSource();
+        private List<Exemplaire> lesParutionsExemplaires = new List<Exemplaire>();
         const string ETATNEUF = "00001";
+        const string ETATNEUFTEXTE = "neuf";
 
         /// <summary>
         /// Ouverture de l'onglet : récupère le revues et vide tous les champs.
@@ -1895,9 +2072,10 @@ namespace MediaTekDocuments.view
         {
             if (exemplaires != null)
             {
-                bdgExemplairesListe.DataSource = exemplaires;
-                dgvReceptionExemplairesListe.DataSource = bdgExemplairesListe;
+                bdgParutionsExemplairesListe.DataSource = exemplaires;
+                dgvReceptionExemplairesListe.DataSource = bdgParutionsExemplairesListe;
                 dgvReceptionExemplairesListe.Columns["idEtat"].Visible = false;
+                dgvReceptionExemplairesListe.Columns["photo"].Visible = false;
                 dgvReceptionExemplairesListe.Columns["id"].Visible = false;
                 dgvReceptionExemplairesListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 dgvReceptionExemplairesListe.Columns["numero"].DisplayIndex = 0;
@@ -1905,7 +2083,7 @@ namespace MediaTekDocuments.view
             }
             else
             {
-                bdgExemplairesListe.DataSource = null;
+                bdgParutionsExemplairesListe.DataSource = null;
             }
         }
 
@@ -1984,8 +2162,8 @@ namespace MediaTekDocuments.view
         private void AfficheReceptionExemplairesRevue()
         {
             string idDocuement = txbReceptionRevueNumero.Text;
-            lesExemplaires = controller.GetExemplaires(idDocuement);
-            RemplirReceptionExemplairesListe(lesExemplaires);
+            lesParutionsExemplaires = controller.GetExemplaires(idDocuement);
+            RemplirReceptionExemplairesListe(lesParutionsExemplaires);
             AccesReceptionExemplaireGroupBox(true);
         }
 
@@ -2047,8 +2225,9 @@ namespace MediaTekDocuments.view
                     DateTime dateAchat = dtpReceptionExemplaireDate.Value;
                     string photo = txbReceptionExemplaireImage.Text;
                     string idEtat = ETATNEUF;
+                    string etat = ETATNEUFTEXTE;
                     string idDocument = txbReceptionRevueNumero.Text;
-                    Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, idEtat, idDocument);
+                    Exemplaire exemplaire = new Exemplaire(numero, dateAchat, photo, idEtat, etat, idDocument);
                     if (controller.CreerExemplaire(exemplaire))
                     {
                         AfficheReceptionExemplairesRevue();
@@ -2083,13 +2262,13 @@ namespace MediaTekDocuments.view
             switch (titreColonne)
             {
                 case "Numero":
-                    sortedList = lesExemplaires.OrderBy(o => o.Numero).Reverse().ToList();
+                    sortedList = lesParutionsExemplaires.OrderBy(o => o.Numero).Reverse().ToList();
                     break;
                 case "DateAchat":
-                    sortedList = lesExemplaires.OrderBy(o => o.DateAchat).Reverse().ToList();
+                    sortedList = lesParutionsExemplaires.OrderBy(o => o.DateAchat).Reverse().ToList();
                     break;
-                case "Photo":
-                    sortedList = lesExemplaires.OrderBy(o => o.Photo).ToList();
+                case "Etat":
+                    sortedList = lesParutionsExemplaires.OrderBy(o => o.Photo).ToList();
                     break;
             }
             RemplirReceptionExemplairesListe(sortedList);
@@ -2104,7 +2283,7 @@ namespace MediaTekDocuments.view
         {
             if (dgvReceptionExemplairesListe.CurrentCell != null)
             {
-                Exemplaire exemplaire = (Exemplaire)bdgExemplairesListe.List[bdgExemplairesListe.Position];
+                Exemplaire exemplaire = (Exemplaire)bdgParutionsExemplairesListe.List[bdgParutionsExemplairesListe.Position];
                 string image = exemplaire.Photo;
                 try
                 {
@@ -2118,6 +2297,30 @@ namespace MediaTekDocuments.view
             else
             {
                 pcbReceptionExemplaireRevueImage.Image = null;
+            }
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au double clic sur une case de la DataGridView
+        /// Cette méthode gère le double clic sur la case 'état' d'un des exemplaires
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvReceptionExemplairesListe_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1 || e.ColumnIndex != dgvReceptionExemplairesListe.Columns["etat"].Index)
+                return;
+
+            FrmModifEtat formModifEtat =
+                new FrmModifEtat(dgvReceptionExemplairesListe[e.ColumnIndex, e.RowIndex].Value.ToString());
+
+            Exemplaire exemplaire = (Exemplaire)bdgParutionsExemplairesListe.List[bdgParutionsExemplairesListe.Position];
+
+            if (formModifEtat.ShowDialog() == DialogResult.OK && formModifEtat.Etat.Libelle != exemplaire.Etat)
+            {
+                exemplaire.IdEtat = formModifEtat.Etat.Id;
+                exemplaire.Etat = formModifEtat.Etat.Libelle;
+                controller.ModifierExemplaire(exemplaire);
             }
         }
         #endregion
