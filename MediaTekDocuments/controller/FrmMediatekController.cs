@@ -137,6 +137,16 @@ namespace MediaTekDocuments.controller
         }
         
         /// <summary>
+        /// Suppression d'un exemplaire en base de données
+        /// </summary>
+        /// <param name="exemplaire">L'exemplaire à supprimer</param>
+        /// <returns>true si la suppression a pu se faire (retour != null)</returns>
+        public bool SupprimerExemplaire(Exemplaire exemplaire)
+        {
+            return access.SupprimerExemplaire(exemplaire);
+        }
+        
+        /// <summary>
         /// Crée un livre dans la bdd
         /// </summary>
         /// <param name="livre">L'objet Livre concerné</param>

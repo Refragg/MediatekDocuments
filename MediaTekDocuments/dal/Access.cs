@@ -265,6 +265,26 @@ namespace MediaTekDocuments.dal
             }
             return false;
         }
+        
+        /// <summary>
+        /// Suppression d'un exemplaire en base de données
+        /// </summary>
+        /// <param name="exemplaire">L'exemplaire à supprimer</param>
+        /// <returns>true si la suppression a pu se faire (retour != null)</returns>
+        public bool SupprimerExemplaire(Exemplaire exemplaire)
+        {
+            String jsonExemplaire = JsonConvert.SerializeObject(exemplaire.ToRestApiObject(), new CustomDateTimeConverter());
+            try
+            {
+                List<Exemplaire> liste = TraitementRecup<Exemplaire>(DELETE, "exemplaire", "champs=" + jsonExemplaire, false);
+                return (liste != null);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
 
         /// <summary>
         /// Crée et ajoute un livre à la base de données

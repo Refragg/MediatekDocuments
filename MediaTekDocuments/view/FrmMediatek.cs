@@ -764,6 +764,35 @@ namespace MediaTekDocuments.view
                 controller.ModifierExemplaire(exemplaire);
             }
         }
+        
+        /// <summary>
+        /// Méthode événementielle au changement de selection du DataGridView des exemplaires
+        /// Cette méthode gère l'état d'activation du bouton de suppression d'exemplaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvLivresExemplaires_SelectionChanged(object sender, EventArgs e)
+        {
+            btnLivresExemplairesSupprimer.Enabled = dgvLivresExemplaires.CurrentCell != null;
+        }
+
+        /// <summary>
+        /// Méthode événementielle au clic sur le bouton supprimer des exemplaires
+        /// Cette méthode gère la suppression d'un exemplaire après confirmation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLivresExemplairesSupprimer_Click(object sender, EventArgs e)
+        {
+            Exemplaire exemplaire = (Exemplaire)bdgLivresExemplaires.List[bdgLivresExemplaires.Position];
+
+            if (MessageBox.Show("Voulez-vous vraiment supprimer l'exemplaire N°" + exemplaire.Numero + " ?",
+                    "Suppression d'un exemplaire", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (controller.SupprimerExemplaire(exemplaire))
+                    DgvLivresListe_SelectionChanged(null, null);
+            }
+        }
         #endregion
 
         #region Onglet Dvd
@@ -1449,6 +1478,35 @@ namespace MediaTekDocuments.view
                 exemplaire.IdEtat = formModifEtat.Etat.Id;
                 exemplaire.Etat = formModifEtat.Etat.Libelle;
                 controller.ModifierExemplaire(exemplaire);
+            }
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au changement de selection du DataGridView des exemplaires
+        /// Cette méthode gère l'état d'activation du bouton de suppression d'exemplaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvDvdExemplaires_SelectionChanged(object sender, EventArgs e)
+        {
+            btnDvdExemplairesSupprimer.Enabled = dgvDvdExemplaires.CurrentCell != null;
+        }
+
+        /// <summary>
+        /// Méthode événementielle au clic sur le bouton supprimer des exemplaires
+        /// Cette méthode gère la suppression d'un exemplaire après confirmation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDvdExemplairesSupprimer_Click(object sender, EventArgs e)
+        {
+            Exemplaire exemplaire = (Exemplaire)bdgDvdExemplaires.List[bdgDvdExemplaires.Position];
+
+            if (MessageBox.Show("Voulez-vous vraiment supprimer l'exemplaire N°" + exemplaire.Numero + " ?",
+                    "Suppression d'un exemplaire", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (controller.SupprimerExemplaire(exemplaire))
+                    dgvDvdListe_SelectionChanged(null, null);
             }
         }
         #endregion
@@ -2283,6 +2341,7 @@ namespace MediaTekDocuments.view
         {
             if (dgvReceptionExemplairesListe.CurrentCell != null)
             {
+                btnReceptionParutionsSupprimer.Enabled = true;
                 Exemplaire exemplaire = (Exemplaire)bdgParutionsExemplairesListe.List[bdgParutionsExemplairesListe.Position];
                 string image = exemplaire.Photo;
                 try
@@ -2296,6 +2355,7 @@ namespace MediaTekDocuments.view
             }
             else
             {
+                btnReceptionParutionsSupprimer.Enabled = false;
                 pcbReceptionExemplaireRevueImage.Image = null;
             }
         }
@@ -2321,6 +2381,27 @@ namespace MediaTekDocuments.view
                 exemplaire.IdEtat = formModifEtat.Etat.Id;
                 exemplaire.Etat = formModifEtat.Etat.Libelle;
                 controller.ModifierExemplaire(exemplaire);
+            }
+        }
+        
+        /// <summary>
+        /// Méthode événementielle au clic sur le bouton supprimer des parutions
+        /// Cette méthode gère la suppression d'une parution après confirmation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnReceptionParutionsSupprimer_Click(object sender, EventArgs e)
+        {
+            Exemplaire exemplaire = (Exemplaire)bdgParutionsExemplairesListe.List[bdgParutionsExemplairesListe.Position];
+
+            if (MessageBox.Show("Voulez-vous vraiment supprimer la parution N°" + exemplaire.Numero + " ?",
+                    "Suppression d'une parution", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (controller.SupprimerExemplaire(exemplaire))
+                {
+                    AfficheReceptionExemplairesRevue();
+                    dgvReceptionExemplairesListe_SelectionChanged(null, null);
+                }
             }
         }
         #endregion
