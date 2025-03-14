@@ -16,6 +16,7 @@ namespace MediaTekDocuments.view
     public partial class FrmMediatek : Form
     {
         #region Commun
+        private readonly Utilisateur utilisateur;
         private readonly FrmMediatekController controller;
         private readonly BindingSource bdgGenres = new BindingSource();
         private readonly BindingSource bdgPublics = new BindingSource();
@@ -25,13 +26,37 @@ namespace MediaTekDocuments.view
         private readonly BindingSource bdgRayonsEdit = new BindingSource();
 
         /// <summary>
-        /// Constructeur : création du contrôleur lié à ce formulaire
+        /// Constructeur : création du contrôleur lié à ce formulaire et activation / désactivation
+        /// des fonctionnalités en fonction de l'utilisateur de l'application
         /// </summary>
-        internal FrmMediatek()
+        internal FrmMediatek(Utilisateur utilisateur)
         {
             InitializeComponent();
             this.controller = new FrmMediatekController();
+            this.utilisateur = utilisateur;
 
+            if (!utilisateur.Administrateur && utilisateur.Service != "Administratif")
+            {
+                if (utilisateur.Service == "Prets")
+                {
+                    grpLivresActions.Enabled = false;
+                    btnLivresExemplairesSupprimer.Visible = false;
+                    dgvLivresExemplaires.CellMouseDoubleClick -= dgvLivresExemplaires_CellMouseDoubleClick;
+                    
+                    grpDvdActions.Enabled = false;
+                    btnDvdExemplairesSupprimer.Visible = false;
+                    dgvDvdExemplaires.CellMouseDoubleClick -= dgvDvdExemplaires_CellMouseDoubleClick;
+                    
+                    grpRevuesActions.Enabled = false;
+                    
+                    grpReceptionExemplaire.Enabled = false;
+                    btnReceptionParutionsSupprimer.Visible = false;
+                    dgvReceptionExemplairesListe.CellMouseDoubleClick -= dgvReceptionExemplairesListe_CellMouseDoubleClick;
+                }
+
+                return;
+            }
+            
             List<RevueAbonnementAExpiration> revuesExpirationProchaine = controller.GetRevuesAbonnementAExpirationProchaine();
 
             if (revuesExpirationProchaine.Count != 0)
@@ -2232,7 +2257,8 @@ namespace MediaTekDocuments.view
         /// <param name="acces">true ou false</param>
         private void AccesReceptionExemplaireGroupBox(bool acces)
         {
-            grpReceptionExemplaire.Enabled = acces;
+            if(!utilisateur.Administrateur && utilisateur.Service != "Prets")
+                grpReceptionExemplaire.Enabled = acces;
             txbReceptionExemplaireImage.Text = "";
             txbReceptionExemplaireNumero.Text = "";
             pcbReceptionExemplaireImage.Image = null;

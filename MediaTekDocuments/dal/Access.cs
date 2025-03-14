@@ -585,6 +585,26 @@ namespace MediaTekDocuments.dal
             }
             return false;
         }
+        
+        /// <summary>
+        /// Supprime une commande d'une revue de la base de données
+        /// </summary>
+        /// <param name="idCommande">L'identifiant de la commande à supprimer</param>
+        /// <returns>True si la suppression à réussi, false sinon</returns>
+        public Utilisateur ControleAuthentification(string login, string password)
+        {
+            String jsonIdentifiants = JsonConvert.SerializeObject(new { Login = login, Password = password });
+            try
+            {
+                List<Utilisateur> liste = TraitementRecup<Utilisateur>(PUT, "authentification", "champs=" + jsonIdentifiants);
+                return liste?.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
 
         /// <summary>
         /// Traitement de la récupération du retour de l'api, avec conversion du json en liste pour les select (GET)

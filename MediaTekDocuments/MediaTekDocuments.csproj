@@ -82,6 +82,7 @@
     <Reference Include="ZstdNet, Version=1.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controller\FrmAuthController.cs" />
     <Compile Include="controller\FrmMediatekCommandesLivreDvdController.cs" />
     <Compile Include="controller\FrmMediatekCommandesRevueController.cs" />
     <Compile Include="controller\FrmModifEtatController.cs" />
@@ -93,6 +94,13 @@
     <Compile Include="model\Abonnement.cs" />
     <Compile Include="model\RevueAbonnementAExpiration.cs" />
     <Compile Include="model\Suivi.cs" />
+    <Compile Include="model\Utilisateur.cs" />
+    <Compile Include="view\FrmAuth.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="view\FrmAuth.Designer.cs">
+      <DependentUpon>FrmAuth.cs</DependentUpon>
+    </Compile>
     <Compile Include="view\FrmMediatek.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +147,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="view\FrmAuth.resx">
+      <DependentUpon>FrmAuth.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="view\FrmMediatek.resx">
       <DependentUpon>FrmMediatek.cs</DependentUpon>
     </EmbeddedResource>
