@@ -17,7 +17,7 @@ namespace MediaTekDocuments.view
         private Revue revue;
         private FrmMediatekCommandesRevueController controller;
         private readonly BindingSource bdgCommandesListe = new BindingSource();
-        private List<Abonnement> lesCommandes = new List<Abonnement>();
+        private List<Abonnement> lesCommandes;
         
         /// <summary>
         /// Constructeur : création du formulaire et remplissage des informations
@@ -118,20 +118,17 @@ namespace MediaTekDocuments.view
         {
             Abonnement commande = (Abonnement)bdgCommandesListe.List[bdgCommandesListe.Position];
             List<Exemplaire> exemplaires = controller.GetExemplaires(revue.Id);
-            foreach (Exemplaire exemplaire in exemplaires)
+            if (exemplaires.Any(exemplaire => commande.ParutionDansAbonnement(exemplaire.DateAchat)))
             {
-                if (commande.ParutionDansAbonnement(exemplaire.DateAchat))
-                {
-                    MessageBox.Show("Un abonnement ne peut pas être supprimé si des exemplaires y sont rattachés");
-                    return;
-                }
+                MessageBox.Show("Un abonnement ne peut pas être supprimé si des exemplaires y sont rattachés");
+                return;
             }
 
             if (MessageBox.Show($"Voulez vous vraiment supprimer la commande '{commande.Id}' ?", "Suppression de commande",
                     MessageBoxButtons.YesNo) != DialogResult.Yes)
                 return;
 
-            if (!controller.SupprimerCommande(commande))
+            if (!controller.SupprimerAbonnement(commande))
             {
                 MessageBox.Show("La commande n'a pas pu être supprimée");
                 return;
@@ -167,8 +164,6 @@ namespace MediaTekDocuments.view
         /// <param name="e"></param>
         private void btnValider_Click(object sender, EventArgs e)
         {
-            Abonnement commandePrecedente = null;
-            
             if (!ValiderFormulaireCommandes())
                 return;
             
@@ -182,7 +177,7 @@ namespace MediaTekDocuments.view
                 commandesEnModif = false;
                 Abonnement commandeModif = new Abonnement(numero, dateCommande, montant, dateFinAbonnement, revue.Id);
 
-                bool resultat = controller.ModifierCommande(commandeModif);
+                bool resultat = controller.ModifierAbonnement(commandeModif);
                 if (resultat)
                 {
                     bdgCommandesListe.List[bdgCommandesListe.Position] = commandeModif;
@@ -197,7 +192,7 @@ namespace MediaTekDocuments.view
                 commandesEnAjout = false;
                 Abonnement nouvelleCommande = new Abonnement(numero, dateCommande, montant, dateFinAbonnement, revue.Id);
                 
-                bool resultat = controller.CreerCommande(nouvelleCommande);
+                bool resultat = controller.CreerAbonnement(nouvelleCommande);
                 if (resultat)
                 {
                     lesCommandes.Add(nouvelleCommande);
@@ -333,6 +328,15 @@ namespace MediaTekDocuments.view
             }
             
             return true;
+        }
+
+        private void FrmMediatekCommandesRevue_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (commandesEnModif || commandesEnAjout)
+            {
+                MessageBox.Show("Veuillez valider ou annuler l'opération en cours avant de fermer cette fenêtre.");
+                e.Cancel = true;
+            }
         }
     }
 }

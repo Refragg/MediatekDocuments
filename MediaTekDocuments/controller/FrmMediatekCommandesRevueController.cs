@@ -31,33 +31,33 @@ namespace MediaTekDocuments.controller
         }
 
         /// <summary>
-        /// Suppression d'une commande d'une revue de la base de données
+        /// Suppression d'un abonnement d'une revue de la base de données
         /// </summary>
-        /// <param name="commande">La commande a supprimer</param>
-        /// <returns>True si la commande a été supprimée avec succès, sinon false</returns>
-        public bool SupprimerCommande(Abonnement commande)
+        /// <param name="abonnement">L'abonnement a supprimer</param>
+        /// <returns>True si l'abonnement a été supprimé avec succès, sinon false</returns>
+        public bool SupprimerAbonnement(Abonnement abonnement)
         {
-            return access.SupprimerCommandeRevue(commande.Id);
+            return access.SupprimerAbonnement(abonnement.Id);
         }
         
         /// <summary>
-        /// Crée une commande d'une revue dans la bdd
+        /// Crée un abonnement d'une revue dans la bdd
         /// </summary>
-        /// <param name="commande">L'objet Commande concerné</param>
+        /// <param name="abonnement">L'objet Abonnement concerné</param>
         /// <returns>True si la création a pu se faire</returns>
-        public bool CreerCommande(Abonnement commande)
+        public bool CreerAbonnement(Abonnement abonnement)
         {
-            return access.CreerCommande(commande);
+            return access.CreerAbonnement(abonnement);
         }
 
         /// <summary>
-        /// Modifie une commande d'une revue dans la base de données
+        /// Modifie un abonnement d'une revue dans la base de données
         /// </summary>
-        /// <param name="commande">La commande avec ses champs modifiés</param>
+        /// <param name="abonnement">L'abonnement avec ses champs modifiés</param>
         /// <returns>True si la modification à réussi, false sinon</returns>
-        public bool ModifierCommande(Abonnement commande)
+        public bool ModifierAbonnement(Abonnement abonnement)
         {
-            return access.ModifierCommande(commande);
+            return access.ModifierAbonnement(abonnement);
         }
 
         /// <summary>

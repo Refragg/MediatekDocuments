@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.IO;
+using System.Text;
 
 namespace MediaTekDocuments.view
 
@@ -16,6 +17,7 @@ namespace MediaTekDocuments.view
     public partial class FrmMediatek : Form
     {
         #region Commun
+        private const string numeroIntrouvableString = "numéro introuvable";
         private readonly Utilisateur utilisateur;
         private readonly FrmMediatekController controller;
         private readonly BindingSource bdgGenres = new BindingSource();
@@ -62,15 +64,12 @@ namespace MediaTekDocuments.view
             if (revuesExpirationProchaine.Count != 0)
             {
                 string titre = "Des revues arrivent à expiration";
-                string message = "Les revues suivantes arrivent à expiration dans moins de 30 jours :\n";
+                StringBuilder messageBuilder = new StringBuilder("Les revues suivantes arrivent à expiration dans moins de 30 jours :\n");
                 
                 foreach (RevueAbonnementAExpiration revue in revuesExpirationProchaine)
-                    message += "- '" + revue.Titre + "' - Expire le " + revue.DateFinAbonnement.ToShortDateString() + '\n';
+                    messageBuilder.Append("- '" + revue.Titre + "' - Expire le " + revue.DateFinAbonnement.ToShortDateString() + '\n');
 
-                // Enlèvement du dernière retour à la ligne
-                message.Remove(message.Length - 1);
-
-                MessageBox.Show(message, titre);
+                MessageBox.Show(messageBuilder.ToString(), titre);
             }
         }
 
@@ -80,7 +79,7 @@ namespace MediaTekDocuments.view
         /// <param name="lesCategories">liste des objets de type Genre ou Public ou Rayon</param>
         /// <param name="bdg">bindingsource contenant les informations</param>
         /// <param name="cbx">combobox à remplir</param>
-        public void RemplirComboCategorie(List<Categorie> lesCategories, BindingSource bdg, ComboBox cbx)
+        public static void RemplirComboCategorie(List<Categorie> lesCategories, BindingSource bdg, ComboBox cbx)
         {
             bdg.DataSource = lesCategories;
             cbx.DataSource = bdg;
@@ -174,7 +173,7 @@ namespace MediaTekDocuments.view
                 }
                 else
                 {
-                    MessageBox.Show("numéro introuvable");
+                    MessageBox.Show(numeroIntrouvableString);
                     RemplirLivresListeComplete();
                 }
             }
@@ -812,11 +811,11 @@ namespace MediaTekDocuments.view
             Exemplaire exemplaire = (Exemplaire)bdgLivresExemplaires.List[bdgLivresExemplaires.Position];
 
             if (MessageBox.Show("Voulez-vous vraiment supprimer l'exemplaire N°" + exemplaire.Numero + " ?",
-                    "Suppression d'un exemplaire", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                if (controller.SupprimerExemplaire(exemplaire))
-                    DgvLivresListe_SelectionChanged(null, null);
-            }
+                    "Suppression d'un exemplaire", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                return;
+            
+            if (controller.SupprimerExemplaire(exemplaire))
+                DgvLivresListe_SelectionChanged(null, null);
         }
         #endregion
 
@@ -891,7 +890,7 @@ namespace MediaTekDocuments.view
                 }
                 else
                 {
-                    MessageBox.Show("numéro introuvable");
+                    MessageBox.Show(numeroIntrouvableString);
                     RemplirDvdListeComplete();
                 }
             }
@@ -1528,11 +1527,11 @@ namespace MediaTekDocuments.view
             Exemplaire exemplaire = (Exemplaire)bdgDvdExemplaires.List[bdgDvdExemplaires.Position];
 
             if (MessageBox.Show("Voulez-vous vraiment supprimer l'exemplaire N°" + exemplaire.Numero + " ?",
-                    "Suppression d'un exemplaire", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                if (controller.SupprimerExemplaire(exemplaire))
-                    dgvDvdListe_SelectionChanged(null, null);
-            }
+                    "Suppression d'un exemplaire", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                return;
+            
+            if (controller.SupprimerExemplaire(exemplaire))
+                dgvDvdListe_SelectionChanged(null, null);
         }
         #endregion
 
@@ -1604,7 +1603,7 @@ namespace MediaTekDocuments.view
                 }
                 else
                 {
-                    MessageBox.Show("numéro introuvable");
+                    MessageBox.Show(numeroIntrouvableString);
                     RemplirRevuesListeComplete();
                 }
             }
@@ -2186,7 +2185,7 @@ namespace MediaTekDocuments.view
                 }
                 else
                 {
-                    MessageBox.Show("numéro introuvable");
+                    MessageBox.Show(numeroIntrouvableString);
                 }
             }
         }
@@ -2421,13 +2420,12 @@ namespace MediaTekDocuments.view
             Exemplaire exemplaire = (Exemplaire)bdgParutionsExemplairesListe.List[bdgParutionsExemplairesListe.Position];
 
             if (MessageBox.Show("Voulez-vous vraiment supprimer la parution N°" + exemplaire.Numero + " ?",
-                    "Suppression d'une parution", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    "Suppression d'une parution", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                return;
+            if (controller.SupprimerExemplaire(exemplaire))
             {
-                if (controller.SupprimerExemplaire(exemplaire))
-                {
-                    AfficheReceptionExemplairesRevue();
-                    dgvReceptionExemplairesListe_SelectionChanged(null, null);
-                }
+                AfficheReceptionExemplairesRevue();
+                dgvReceptionExemplairesListe_SelectionChanged(null, null);
             }
         }
         #endregion

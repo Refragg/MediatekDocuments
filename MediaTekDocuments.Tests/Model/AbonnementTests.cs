@@ -12,17 +12,17 @@ namespace MediaTekDocuments.Tests.Model
         {
             Abonnement abonnementTest = new Abonnement(
                 "00001",
-                new DateTime(2025, 3, 1),
+                new DateTime(2025, 3, 1, 0, 0, 0, DateTimeKind.Local),
                 9.99, 
-                new DateTime(2025, 4, 1),
+                new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Local),
                 "10001"
             );
             
-            Assert.False(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 2, 25)), "Cette date ne peut pas être parue dans l'abonnement");
-            Assert.True(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 3, 1)), "Cette date est parue dans l'abonnement");
-            Assert.True(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 3, 15)), "Cette date est parue dans l'abonnement");
-            Assert.False(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 4, 1)), "Cette date ne peut pas être parue dans l'abonnement");
-            Assert.False(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 4, 15)), "Cette date ne peut pas être parue dans l'abonnement");
+            Assert.False(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 2, 25, 0, 0, 0, DateTimeKind.Local)), "Cette date ne peut pas être parue dans l'abonnement");
+            Assert.True(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 3, 1, 0, 0, 0, DateTimeKind.Local)), "Cette date est parue dans l'abonnement");
+            Assert.True(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 3, 15, 0, 0, 0, DateTimeKind.Local)), "Cette date est parue dans l'abonnement");
+            Assert.False(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 4, 1, 0, 0, 0, DateTimeKind.Local)), "Cette date ne peut pas être parue dans l'abonnement");
+            Assert.False(abonnementTest.ParutionDansAbonnement(new DateTime(2025, 4, 15, 0, 0, 0, DateTimeKind.Local)), "Cette date ne peut pas être parue dans l'abonnement");
         }
     }
 }

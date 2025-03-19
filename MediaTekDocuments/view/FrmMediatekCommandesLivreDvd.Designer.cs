@@ -301,6 +301,7 @@ namespace MediaTekDocuments.view
             this.MinimizeBox = false;
             this.Name = "FrmMediatekCommandesLivreDvd";
             this.Text = "Gestion des commandes";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMediatekCommandesLivreDvd_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommandes)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

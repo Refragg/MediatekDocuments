@@ -274,6 +274,7 @@ namespace MediaTekDocuments.view
             this.MinimizeBox = false;
             this.Name = "FrmMediatekCommandesRevue";
             this.Text = "Gestion des abonnements";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMediatekCommandesRevue_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCommandes)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

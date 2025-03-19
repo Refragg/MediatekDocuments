@@ -18,7 +18,7 @@ namespace MediaTekDocuments.view
         private FrmMediatekCommandesLivreDvdController controller;
         private readonly BindingSource bdgCommandesListe = new BindingSource();
         private readonly BindingSource bdgSuivis = new BindingSource();
-        private List<CommandeLivreDvd> lesCommandes = new List<CommandeLivreDvd>();
+        private List<CommandeLivreDvd> lesCommandes;
         
         /// <summary>
         /// Constructeur : création du formulaire et remplissage des informations
@@ -45,7 +45,7 @@ namespace MediaTekDocuments.view
         /// <param name="lesSuivis">liste des objets de type suivi</param>
         /// <param name="bdg">bindingsource contenant les informations</param>
         /// <param name="cbx">combobox à remplir</param>
-        public void RemplirComboSuivis(List<Suivi> lesSuivis, BindingSource bdg, ComboBox cbx)
+        public static void RemplirComboSuivis(List<Suivi> lesSuivis, BindingSource bdg, ComboBox cbx)
         {
             bdg.DataSource = lesSuivis;
             cbx.DataSource = bdg;
@@ -387,6 +387,15 @@ namespace MediaTekDocuments.view
             }
             
             return true;
+        }
+
+        private void FrmMediatekCommandesLivreDvd_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (commandesEnModif || commandesEnAjout)
+            {
+                MessageBox.Show("Veuillez valider ou annuler l'opération en cours avant de fermer cette fenêtre.");
+                e.Cancel = true;
+            }
         }
     }
 }
