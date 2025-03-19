@@ -142,7 +142,6 @@ namespace MediaTekDocuments.view
         {
             string titreColonne = dgvCommandes.Columns[e.ColumnIndex].HeaderText;
             List<CommandeLivreDvd> sortedList = new List<CommandeLivreDvd>();
-            Console.WriteLine(titreColonne);
             switch (titreColonne)
             {
                 case "N° Commande":

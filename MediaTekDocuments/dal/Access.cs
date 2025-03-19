@@ -7,6 +7,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.Configuration;
 using System.Linq;
+using Serilog;
 
 namespace MediaTekDocuments.dal
 {
@@ -80,7 +81,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Log.Error(e, "Erreur d'initialisation de l'objet d'accès à l'API REST");
                 Environment.Exit(0);
             }
         }
@@ -263,7 +264,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la création d'un exemplaire");
             }
             return false;
         }
@@ -283,7 +284,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la modification d'un exemplaire");
             }
             return false;
         }
@@ -303,7 +304,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la suppression d'un exemplaire");
             }
             return false;
         }
@@ -323,7 +324,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la création d'un livre");
             }
             return false;
         }
@@ -343,7 +344,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la modification d'un livre");
             }
             return false;
         }
@@ -363,7 +364,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la suppression d'un livre");
             }
             return false;
         }
@@ -383,7 +384,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la création d'un DVD");
             }
             return false;
         }
@@ -403,7 +404,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la modification d'un DVD");
             }
             return false;
         }
@@ -423,7 +424,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la suppression d'un DVD");
             }
             return false;
         }
@@ -443,7 +444,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la création d'une revue");
             }
             return false;
         }
@@ -463,7 +464,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la modification d'une revue");
             }
             return false;
         }
@@ -483,7 +484,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la suppression d'une revue");
             }
             return false;
         }
@@ -503,7 +504,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la création d'une commande de livre / DVD");
             }
             return false;
         }
@@ -523,7 +524,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la modification d'une commande de livre / DVD");
             }
             return false;
         }
@@ -543,7 +544,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la suppression d'une commande de livre / DVD");
             }
             return false;
         }
@@ -563,7 +564,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la création d'un abonnement de revue");
             }
             return false;
         }
@@ -583,7 +584,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la modification d'un abonnement de revue");
             }
             return false;
         }
@@ -603,7 +604,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors de la suppression d'un abonnement de revue");
             }
             return false;
         }
@@ -623,7 +624,7 @@ namespace MediaTekDocuments.dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.Error(ex, "Une erreur est survenue lors du contrôle de l'authentification de l'utilisateur");
             }
             return null;
         }
@@ -656,11 +657,14 @@ namespace MediaTekDocuments.dal
                 }
                 else
                 {
-                    Console.WriteLine("code erreur = " + code + " message = " + (String)retour["message"]);
+                    string messageErreur = (String)retour["message"];
+                    
+                    Log.Error("L'API REST a retourné une erreur : code : '{CodeErreur}', message : '{MessageErreur}'", 
+                        code, messageErreur);
                 }
             }catch(Exception e)
             {
-                Console.WriteLine("Erreur lors de l'accès à l'API : "+e.Message);
+                Log.Error(e, "Erreur lors de l'accès à l'API REST");
                 Environment.Exit(0);
             }
             return liste;
