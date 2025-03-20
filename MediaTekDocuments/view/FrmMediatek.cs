@@ -31,7 +31,7 @@ namespace MediaTekDocuments.view
         /// Constructeur : création du contrôleur lié à ce formulaire et activation / désactivation
         /// des fonctionnalités en fonction de l'utilisateur de l'application
         /// </summary>
-        internal FrmMediatek(Utilisateur utilisateur)
+        public FrmMediatek(Utilisateur utilisateur, bool showAbonnementsExpirant = true)
         {
             InitializeComponent();
             this.controller = new FrmMediatekController();
@@ -58,7 +58,10 @@ namespace MediaTekDocuments.view
 
                 return;
             }
-            
+
+            if (!showAbonnementsExpirant)
+                return;
+
             List<RevueAbonnementAExpiration> revuesExpirationProchaine = controller.GetRevuesAbonnementAExpirationProchaine();
 
             if (revuesExpirationProchaine.Count != 0)

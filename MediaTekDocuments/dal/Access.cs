@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Configuration;
 using System.Linq;
 using Serilog;
+using System.Reflection;
 
 namespace MediaTekDocuments.dal
 {
@@ -64,7 +65,9 @@ namespace MediaTekDocuments.dal
         /// <returns>La chaine de connexion demandée</returns>
         private static string GetConnectionString(string name)
         {
-            return ConfigurationManager.ConnectionStrings[name]?.ConnectionString;
+            string cheminExe = Assembly.GetExecutingAssembly().Location;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(cheminExe);
+            return config.ConnectionStrings.ConnectionStrings[name]?.ConnectionString;
         }
 
         /// <summary>
@@ -608,12 +611,13 @@ namespace MediaTekDocuments.dal
             }
             return false;
         }
-        
+
         /// <summary>
-        /// Supprime une commande d'une revue de la base de données
+        /// Contrôle l'authentification d'un utilisateur en fonction de son login et de son mot de passe
         /// </summary>
-        /// <param name="idCommande">L'identifiant de la commande à supprimer</param>
-        /// <returns>True si la suppression à réussi, false sinon</returns>
+        /// <param name="login">Le login de l'utilisateur</param>
+        /// <param name="password">Le mot de passe de l'utilisateur</param>
+        /// <returns>L'utilisateur authentifié ou null si erreur</returns>
         public Utilisateur ControleAuthentification(string login, string password)
         {
             String jsonIdentifiants = JsonConvert.SerializeObject(new { Login = login, Password = password });
