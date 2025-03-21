@@ -5,7 +5,7 @@ using MediaTekDocuments.model;
 namespace MediaTekDocuments.controller
 {
     /// <summary>
-    /// Contrôleur lié à FrmModifEtatController
+    /// Contrôleur lié à FrmModifEtat
     /// </summary>
     class FrmModifEtatController
     {

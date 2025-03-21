@@ -5,6 +5,9 @@ using MediaTekDocuments.model;
 
 namespace MediaTekDocuments.controller
 {
+    /// <summary>
+    /// Contrôleur lié à FrmMediatekCommandesRevues
+    /// </summary>
     public class FrmMediatekCommandesRevueController
     {
         /// <summary>
