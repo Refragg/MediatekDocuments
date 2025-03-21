@@ -1,0 +1,6 @@
+.cache
+# On ignore le dossier _site sauf les fichiers icon.ico et logo.png
+/**/_site/*
+!/**/_site/icon.ico
+!/**/_site/logo.png
+/**/api/

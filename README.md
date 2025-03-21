@@ -75,3 +75,7 @@ Ce mode opératoire permet d'installer l'application pour pouvoir travailler des
 - Installer Visual Studio 2019 entreprise et les extension Specflow et newtonsoft.json (pour ce dernier, voir l'article "Accéder à une API REST à partir d'une application C#" dans le wiki de ce dépôt : consulter juste le début pour la configuration, car la suite permet de comprendre le code existant).<br>
 - Télécharger le code et le dézipper puis renommer le dossier en "mediatekdocuments".<br>
 - Récupérer et installer l'API REST nécessaire (https://github.com/CNED-SLAM/rest_mediatekdocuments) ainsi que la base de données (les explications sont données dans le readme correspondant).
+
+## Licence de l'icône
+
+Image originale du document [Annuaire, Bleu, Catégorie](https://pixabay.com/fr/vectors/annuaire-bleu-cat%C3%A9gorie-dossier-151106/) par [OpenClipart-Vectors](https://pixabay.com/fr/users/openclipart-vectors-30363/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=151106) de [Pixabay](https://pixabay.com/fr//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=151106)

@@ -29,6 +29,7 @@ namespace MediaTekDocuments.view
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMediatek));
             this.tabOngletsApplication = new System.Windows.Forms.TabControl();
             this.tabLivres = new System.Windows.Forms.TabPage();
             this.grpLivresActions = new System.Windows.Forms.GroupBox();
@@ -194,6 +195,7 @@ namespace MediaTekDocuments.view
             this.dtpReceptionExemplaireDate = new System.Windows.Forms.DateTimePicker();
             this.label16 = new System.Windows.Forms.Label();
             this.grpReceptionRevue = new System.Windows.Forms.GroupBox();
+            this.btnReceptionParutionsSupprimer = new System.Windows.Forms.Button();
             this.label48 = new System.Windows.Forms.Label();
             this.label56 = new System.Windows.Forms.Label();
             this.pcbReceptionExemplaireRevueImage = new System.Windows.Forms.PictureBox();
@@ -217,7 +219,6 @@ namespace MediaTekDocuments.view
             this.label53 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
             this.btnReceptionRechercher = new System.Windows.Forms.Button();
-            this.btnReceptionParutionsSupprimer = new System.Windows.Forms.Button();
             this.tabOngletsApplication.SuspendLayout();
             this.tabLivres.SuspendLayout();
             this.grpLivresActions.SuspendLayout();
@@ -2077,6 +2078,17 @@ namespace MediaTekDocuments.view
             this.grpReceptionRevue.TabStop = false;
             this.grpReceptionRevue.Text = "Recherche revue";
             // 
+            // btnReceptionParutionsSupprimer
+            // 
+            this.btnReceptionParutionsSupprimer.Enabled = false;
+            this.btnReceptionParutionsSupprimer.Location = new System.Drawing.Point(6, 236);
+            this.btnReceptionParutionsSupprimer.Name = "btnReceptionParutionsSupprimer";
+            this.btnReceptionParutionsSupprimer.Size = new System.Drawing.Size(75, 23);
+            this.btnReceptionParutionsSupprimer.TabIndex = 57;
+            this.btnReceptionParutionsSupprimer.Text = "Supprimer";
+            this.btnReceptionParutionsSupprimer.UseVisualStyleBackColor = true;
+            this.btnReceptionParutionsSupprimer.Click += new System.EventHandler(this.btnReceptionParutionsSupprimer_Click);
+            // 
             // label48
             // 
             this.label48.AutoSize = true;
@@ -2301,17 +2313,6 @@ namespace MediaTekDocuments.view
             this.btnReceptionRechercher.UseVisualStyleBackColor = true;
             this.btnReceptionRechercher.Click += new System.EventHandler(this.btnReceptionRechercher_Click);
             // 
-            // btnReceptionParutionsSupprimer
-            // 
-            this.btnReceptionParutionsSupprimer.Enabled = false;
-            this.btnReceptionParutionsSupprimer.Location = new System.Drawing.Point(6, 236);
-            this.btnReceptionParutionsSupprimer.Name = "btnReceptionParutionsSupprimer";
-            this.btnReceptionParutionsSupprimer.Size = new System.Drawing.Size(75, 23);
-            this.btnReceptionParutionsSupprimer.TabIndex = 57;
-            this.btnReceptionParutionsSupprimer.Text = "Supprimer";
-            this.btnReceptionParutionsSupprimer.UseVisualStyleBackColor = true;
-            this.btnReceptionParutionsSupprimer.Click += new System.EventHandler(this.btnReceptionParutionsSupprimer_Click);
-            // 
             // FrmMediatek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2319,6 +2320,7 @@ namespace MediaTekDocuments.view
             this.ClientSize = new System.Drawing.Size(883, 803);
             this.Controls.Add(this.tabOngletsApplication);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmMediatek";
             this.Text = "Gestion des documents de la médiathèque";

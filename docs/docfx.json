@@ -1,0 +1,55 @@
+{
+  "metadata": [
+    {
+      "disableDefaultFilter": true,
+      "filter": "filterConfig.yml",
+      "src": [
+        {
+          "src": "../MediaTekDocuments",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "includePrivateMembers": true,
+      "allowCompilationErrors": true,
+      "properties": {
+        "TargetFramework": "net472"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern",
+      "templates/custom"
+    ],
+    "globalMetadata": {
+      "_appName": "MediaTekDocuments",
+      "_appTitle": "MediaTekDocuments",
+      "_enableSearch": true,
+      "_appLogoPath": "logo.png",
+      "_appFaviconPath": "icon.ico",
+      "pdf": true
+    }
+  }
+}
