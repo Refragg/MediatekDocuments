@@ -52,7 +52,8 @@ Le code de l'API se trouve ici : https://github.com/Refragg/rest_mediatekdocumen
 
 Afin d'installer l'application, il faut récupérer la dernière version disponible [ici](https://github.com/Refragg/MediaTekDocuments/releases/latest).  
 Ensuite, il faut exécuter le fichier installeur en `.msi`.  
-Après, il faudra renseigner l'URL d'accès et les identifiants pour l'accès à l'API dans le fichier `MediaTekDocuments.exe.config` (qui se trouvera par défaut dans le dossier `C:\Program Files (x86)\MediaTek86\MediaTekDocuments`).  
+L'application sera configurée pour se connecter à l'API REST distante par défaut. Il est cepdendant possible si besoin de modifier l'URL et les identifiants pour l'accès à l'API.  
+Pour ce faire, il faudra modifier le fichier `MediaTekDocuments.exe.config` (qui se trouvera par défaut dans le dossier `C:\Program Files (x86)\MediaTek86\MediaTekDocuments`).  
 L'application sera accessible depuis un raccourci sur le bureau et dans le menu démarrer.
 
 ## Licence de l'icône
